@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SayHi | Liquid Glass Experience</title>
+    <link rel="icon" type="image/svg+xml" href="img/logo.png" />
+    <link rel="stylesheet" href="css/style.css" />
+    <!-- Icone Lucide via CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+  </head>
+  <body>
+    <!-- Sfondo liquid glow -->
+    <div class="backdrop-container" id="backdrop">
+      <div class="liquid-blob blob-1"></div>
+      <div class="liquid-blob blob-2"></div>
+      <div class="liquid-blob blob-3"></div>
+    </div>
+
+    <!-- Container principale dell'app -->
+    <div class="app-container">
+      <!-- Sidebar -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+          <h1 class="logo-text">
+            <img src="img/logo.png" alt="SayHi Logo" class="logo-img" />
+            <span>SayHi</span>
+          </h1>
+          <button
+            class="btn-sidebar-toggle"
+            id="btn-sidebar-close"
+            title="Chiudi barra laterale"
+          >
+            <i data-lucide="chevrons-left"></i>
+          </button>
+        </div>
+
+        <!-- Nuova chat e Ricerca -->
+        <div class="sidebar-controls">
+          <button class="btn-new-chat" id="btn-new-chat">
+            <i data-lucide="plus"></i> Nuova chat
+          </button>
+          <button class="btn-search" id="btn-search-toggle" title="Cerca chat">
+            <i data-lucide="search"></i>
+          </button>
+        </div>
+
+        <!-- Ricerca espandibile -->
+        <div class="search-widget-container" id="search-widget">
+          <div class="search-input-wrapper">
+            <i data-lucide="search"></i>
+            <input
+              type="text"
+              class="sidebar-search-input"
+              id="search-chats-input"
+              placeholder="Cerca conversazioni..."
+            />
+          </div>
+        </div>
+
+        <!-- Lista conversazioni -->
+        <div class="conversations-section">
+          <div class="section-title-bar">
+            <span class="section-label">Le tue conversazioni</span>
+            <button class="btn-clear-all" id="btn-clear-all">
+              Cancella tutto
+            </button>
+          </div>
+
+          <ul class="chat-list" id="chat-list-items">
+            <li class="chat-item active" data-id="1">
+              <span class="chat-item-icon"
+                ><i data-lucide="message-square"></i
+              ></span>
+              <span class="chat-item-title">Esempio Chatbot</span>
+              <div class="chat-item-actions">
+                <button class="chat-action-btn edit" title="Rinomina">
+                  <i data-lucide="edit-3"></i>
+                </button>
+                <button class="chat-action-btn delete" title="Elimina">
+                  <i data-lucide="trash-2"></i>
+                </button>
+              </div>
+            </li>
+            <li class="chat-item" data-id="2">
+              <span class="chat-item-icon"
+                ><i data-lucide="message-square"></i
+              ></span>
+              <span class="chat-item-title">Nuova Conversazione</span>
+              <div class="chat-item-actions">
+                <button class="chat-action-btn edit" title="Rinomina">
+                  <i data-lucide="edit-3"></i>
+                </button>
+                <button class="chat-action-btn delete" title="Elimina">
+                  <i data-lucide="trash-2"></i>
+                </button>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Basso a sinistra -->
+        <footer class="sidebar-footer">
+          <button class="footer-btn" id="btn-settings">
+            <i data-lucide="settings"></i> Impostazioni
+          </button>
+          <div class="user-profile-widget" id="btn-profile">
+            <img src="img/avatar.png" alt="Diego Renesto" class="user-avatar" />
+            <div class="user-info">
+              <div class="user-name">Diego Renesto</div>
+              <div class="user-status">Account Gratuito</div>
+            </div>
+            <i
+              data-lucide="more-vertical"
+              style="color: var(--text-secondary); width: 16px"
+            ></i>
+          </div>
+        </footer>
+      </aside>
+
+      <!-- Area chat principale -->
+      <main class="chat-area">
+        <!-- Intestazione in alto -->
+        <header class="chat-header">
+          <div class="header-left">
+            <button
+              class="btn-sidebar-toggle"
+              id="btn-sidebar-toggle"
+              title="Mostra/Nascondi barra laterale"
+            >
+              <i data-lucide="menu"></i>
+            </button>
+            <div class="chat-title-info">
+              <h2 class="chat-current-title" id="active-chat-title">
+                Esempio Chatbot
+              </h2>
+              <div class="chat-model-badge">
+                SayHi AI &bull; API gratuita attiva
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <!-- Storico messaggi -->
+        <section class="messages-container" id="messages-container">
+          <!-- Messaggio utente -->
+          <div class="message-wrapper user">
+            <div class="message-avatar-circle">U</div>
+            <div class="message-content-container">
+              <div class="message-bubble">
+                <p>
+                  Crea un chatbot GPT usando Python, quali sono i passaggi
+                  principali?
+                </p>
+              </div>
+              <!--div class="message-meta">
+                <button class="message-meta-btn btn-edit-user">
+                  <i data-lucide="edit-2"></i> Modifica
+                </button>
+              </div-->
+            </div>
+          </div>
+
+          <!-- Messaggio bot -->
+          <div class="message-wrapper assistant">
+            <div class="message-avatar-circle"><i data-lucide="bot"></i></div>
+            <div class="message-content-container">
+              <div class="message-bubble">
+                <p>
+                  Certamente! Posso aiutarti a iniziare con la creazione di un
+                  chatbot usando GPT in Python. Ecco i passaggi fondamentali da
+                  seguire:
+                </p>
+                <ol>
+                  <li>
+                    <strong>Installa le librerie necessarie:</strong> Avrai
+                    bisogno della libreria <code>transformers</code> di Hugging
+                    Face. Puoi installarla tramite pip: <br /><code
+                      >pip install transformers torch</code
+                    >
+                  </li>
+                  <li>
+                    <strong>Carica il modello pre-addestrato:</strong> GPT è
+                    disponibile in diverse dimensioni e versioni. Puoi caricare
+                    un modello come GPT-Neo o GPT-2. Questo carica la versione
+                    GPT-Neo da 1.3 miliardi di parametri, un modello potente e
+                    moderno.
+                  </li>
+                  <li>
+                    <strong>Crea il ciclo di chat:</strong> Configura un ciclo
+                    che riceve l'input dell'utente, genera una risposta usando
+                    il modello GPT e la mostra a schermo. Questo ciclo
+                    continuerà a funzionare fino a quando l'utente non deciderà
+                    di uscire dal programma.
+                  </li>
+                  <li>
+                    <strong>Personalizza il comportamento:</strong> Sebbene GPT
+                    generi testi di alta qualità, di base non possiede una
+                    personalità specifica. Puoi renderlo più interessante
+                    definendo dei prompt personalizzati per adattare il suo tono
+                    di voce alle tue esigenze.
+                  </li>
+                </ol>
+                <p>
+                  Questi sono i passaggi principali per iniziare. A seconda dei
+                  tuoi requisiti, potrai aggiungere ulteriori funzionalità per
+                  renderlo più complesso. Buon lavoro!
+                </p>
+              </div>
+              <div class="message-meta">
+                <button class="message-meta-btn btn-copy" title="Copia testo">
+                  <i data-lucide="copy"></i> Copia
+                </button>
+                <button
+                  class="message-meta-btn btn-regenerate"
+                  style="margin-left: auto"
+                  title="Rigenera risposta"
+                >
+                  <i data-lucide="refresh-cw"></i> Rigenera
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Messaggio utente -->
+          <div class="message-wrapper user">
+            <div class="message-avatar-circle">U</div>
+            <div class="message-content-container">
+              <div class="message-bubble">
+                <p>Quali sono i possibili utilizzi di questo chatbot?</p>
+              </div>
+              <!--div class="message-meta">
+              <button class="message-meta-btn btn-edit-user"><i data-lucide="edit-2"></i> Modifica</button>
+            </div-->
+            </div>
+          </div>
+
+          <!-- Messaggio bot -->
+          <div class="message-wrapper assistant">
+            <div class="message-avatar-circle"><i data-lucide="bot"></i></div>
+            <div class="message-content-container">
+              <div class="message-bubble">
+                <p>
+                  I chatbot possono essere impiegati per un'ampia gamma di
+                  scopi, tra cui:
+                </p>
+                <ul>
+                  <li>
+                    <strong>Servizio Clienti:</strong> Rispondere alle domande
+                    più frequenti (FAQ), fornire supporto di base e aiutare gli
+                    utenti a navigare all'interno di un sito o servizio. Possono
+                    anche consigliare prodotti e assistere nel completamento di
+                    ordini o resi.
+                  </li>
+                  <li>
+                    <strong>Assistenti Personali:</strong> Essere programmati
+                    per agire come assistenti virtuali, pianificando
+                    appuntamenti, impostando promemoria e gestendo liste di cose
+                    da fare.
+                  </li>
+                  <li>
+                    <strong>Intrattenimento:</strong> Interagire attraverso
+                    giochi, barzellette o semplicemente intrattenendo l'utente
+                    in conversazioni casuali.
+                  </li>
+                  <li>
+                    <strong>Educazione e Formazione:</strong> Agire come tutor
+                    virtuali, spiegando argomenti specifici, suggerendo risorse
+                    didattiche e rispondendo ai quesiti degli studenti.
+                  </li>
+                </ul>
+              </div>
+              <div class="message-meta">
+                <button class="message-meta-btn btn-copy" title="Copia testo">
+                  <i data-lucide="copy"></i> Copia
+                </button>
+                <button
+                  class="message-meta-btn btn-regenerate"
+                  style="margin-left: auto"
+                  title="Rigenera risposta"
+                >
+                  <i data-lucide="refresh-cw"></i> Rigenera
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pallini di caricamento del bot -->
+          <div class="typing-indicator-wrapper" id="typing-indicator">
+            <div class="message-avatar-circle"><i data-lucide="bot"></i></div>
+            <div class="typing-bubbles">
+              <div class="typing-dot"></div>
+              <div class="typing-dot"></div>
+              <div class="typing-dot"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Barra input flottante -->
+        <footer class="input-zone">
+          <div class="input-capsule">
+            <img src="img/avatar.png" alt="Diego" class="input-user-avatar" />
+            <textarea
+              class="chat-textarea"
+              id="chat-input"
+              placeholder="Scrivi un messaggio..."
+              rows="1"
+            ></textarea>
+
+            <div class="input-actions">
+              <button class="btn-send" id="btn-send" title="Invia messaggio">
+                <i data-lucide="send"></i>
+              </button>
+            </div>
+          </div>
+          <div class="input-zone-caption">
+            SayHi può commettere errori. Valuta di verificare le informazioni
+            importanti.
+          </div>
+        </footer>
+      </main>
+    </div>
+
+    <!-- Modale impostazioni -->
+    <div class="modal-overlay" id="settings-modal-overlay">
+      <div class="settings-modal">
+        <div class="modal-header">
+          <h3>
+            <i
+              data-lucide="sliders"
+              style="vertical-align: middle; margin-right: 6px"
+            ></i>
+            Impostazioni
+          </h3>
+          <button class="btn-close-modal" id="btn-settings-close">
+            <i data-lucide="x"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Cambio tema -->
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-title">Tema Chiaro Liquido</div>
+              <div class="setting-desc">
+                Passa dallo stile scuro liquido allo stile chiaro vetro
+              </div>
+            </div>
+            <label class="switch-control">
+              <input type="checkbox" id="theme-switch" />
+              <span class="slider-switch"></span>
+            </label>
+          </div>
+
+          <!-- Velocita animazioni -->
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-title">Movimento dello sfondo</div>
+              <div class="setting-desc">
+                Controlla la velocità dei fluidi di sfondo o mettili in pausa
+              </div>
+            </div>
+            <select class="settings-select" id="blob-movement-select">
+              <option value="fluid">Fluido</option>
+              <option value="slow">Lento</option>
+              <option value="frozen">In pausa</option>
+            </select>
+          </div>
+
+          <!-- Colori accento -->
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-title">Colore di accento</div>
+              <div class="setting-desc">
+                Seleziona il colore principale per i pulsanti e gli accenti
+              </div>
+            </div>
+            <div class="accent-chooser">
+              <span class="accent-dot indigo active" data-color="indigo"></span>
+              <span class="accent-dot pink" data-color="pink"></span>
+              <span class="accent-dot cyan" data-color="cyan"></span>
+              <span class="accent-dot emerald" data-color="emerald"></span>
+            </div>
+          </div>
+
+          <!-- Info account -->
+          <div
+            class="setting-row"
+            style="
+              margin-top: 10px;
+              border-top: 1px solid var(--glass-border);
+              padding-top: 20px;
+            "
+          >
+            <div class="setting-info">
+              <div class="setting-title">Diego Renesto</div>
+              <div class="setting-desc">
+                diego.renesto@iisviolamarchesini.edu.it &bull; Piano: Gratuito
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- API AI e script principale -->
+    <script src="https://js.puter.com/v2/"></script>
+    <script src="index.js"></script>
+  </body>
+</html>
